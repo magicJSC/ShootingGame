@@ -6,7 +6,20 @@ public interface ICharacter
 {
     public int HP { get; set; }
 
+    public float Speed { get; set; }
+
     public void ApplyDamage(IBullet bullet);
+}
+
+public interface IPlayer : ICharacter
+{
+
+}
+
+public interface IEnemy : ICharacter
+{
+    public float Damge { get; set; }
+    public float RushDamage { get; set; }
 }
 
 public interface IBullet 
@@ -17,10 +30,17 @@ public interface IBullet
 public interface IAttack
 {
     public void Shot();
+
+    public GameObject Bullet { get; set; }
+}
+
+public interface IMove
+{
+    public void Move();
 }
 
 /// <summary>
-/// ¸ğµç ControllerÀÇ ºÎ¸ğ ÄÚµå
+/// ëª¨ë“  Controllerì˜ ë¶€ëª¨ ì½”ë“œ
 /// </summary>
 public abstract class BaseController : MonoBehaviour
 {
