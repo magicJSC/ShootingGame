@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 /// <summary>
-/// «√∑π¿ÃæÓ ¡¶æÓ ƒ⁄µÂ
+/// ÌîåÎ†àÏù¥Ïñ¥ Ï†úÏñ¥ ÏΩîÎìú
 /// </summary>
-public class PlayerController : BaseController,ICharacter
+public class PlayerController : BaseController,IPlayer
 {
-    public float speed;
 
     Rigidbody2D _rigid;
     Vector2 _dir;
@@ -15,6 +14,8 @@ public class PlayerController : BaseController,ICharacter
 
     [field:SerializeField]
     public int HP { get; set; }
+    [field: SerializeField]
+    public float Speed { get; set; }
 
     protected override void Init()
     {
@@ -24,7 +25,17 @@ public class PlayerController : BaseController,ICharacter
     void OnMove(InputValue input)
     {
         _dir = input.Get<Vector2>();
-        _rigid.velocity = _dir*speed;
+        _rigid.velocity = _dir * Speed;
+    }
+
+    void OnRotate(InputValue input)
+    {
+        Vector3 mousePos = input.Get<Vector2>();
+        if (mousePos == Vector3.zero)
+            return;
+
+        Vector3 dir = (mousePos - transform.position).normalized;
+        transform.up = dir;
     }
 
     void OnShot()
@@ -35,5 +46,7 @@ public class PlayerController : BaseController,ICharacter
     public void ApplyDamage(IBullet bullet)
     {
         HP -= bullet.Damage;
+        if (HP <= 0)
+            Debug.Log("ÌîåÎ†àÏù¥Ïñ¥ ÏÇ¨Îßù");
     }
 }
