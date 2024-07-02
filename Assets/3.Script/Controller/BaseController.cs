@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface ICharacter
+public interface IGetDamage
+{
+    public void ApplyDamage(IBullet bullet);
+}
+
+public interface ICharacter : IGetDamage
 {
     public int HP { get; set; }
 
     public float Speed { get; set; }
-
-    public void ApplyDamage(IBullet bullet);
 }
 
 public interface IPlayer : ICharacter
