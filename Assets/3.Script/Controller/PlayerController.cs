@@ -11,22 +11,37 @@ public class PlayerController : BaseController,IPlayer
     Vector2 moveDirect;
     Vector2 lookDirect;
 
+    bool canShot;
 
     [field:SerializeField]
-    public int HP { get; set; }
+    public float HP { get; set; }
+
     [field: SerializeField]
     public float Speed { get; set; }
 
     [field:SerializeField]
+    public float Damage { get;set; }
+
+    [field:SerializeField]
     public GameObject Bullet { get; set; }
+
     [field: SerializeField]
-    public float attackCool { get; set; }
+    public float AttackCool { get; set; }
+
+    float _attackCurTime = 0;
+
     [field: SerializeField]
-    public float bulletSpeed { get; set; }
+    public float BulletSpeed { get; set; }
 
     protected override void Init()
     {
         _rigid = GetComponent<Rigidbody2D>();
+        _attackCurTime = AttackCool;
+    }
+
+    void Update()
+    {
+        Shot();
     }
 
     void OnMove(InputValue input)
@@ -44,12 +59,36 @@ public class PlayerController : BaseController,IPlayer
         transform.rotation = Quaternion.Euler(0,0,rot + 90);
     }
 
-    void OnShot()
+    void Shot()
     {
+        if (_attackCurTime <= AttackCool)
+        {
+            _attackCurTime += Time.deltaTime;
+            return;
+        }
+        if (!canShot)
+            return;
+
+        _attackCurTime = 0;
+
         GameObject bullet = Instantiate(Bullet);
-        bullet.GetComponent<Rigidbody2D>().velocity = lookDirect * bulletSpeed;
+        bullet.GetComponent<Rigidbody2D>().velocity = lookDirect * BulletSpeed;
+
         float rot = Mathf.Atan2(-lookDirect.y, -lookDirect.x) * Mathf.Rad2Deg;
         bullet.transform.rotation = Quaternion.Euler(0, 0, rot + 90);
+
+        bullet.transform.position = transform.position;
+        bullet.GetComponent<PlayerBullet>().CollisionDamage = Damage;
+    }
+
+    void OnStartShot()
+    {
+        canShot = true;
+    }
+
+    void OnCancelShot()
+    {
+        canShot = false;
     }
 
     public void ApplyDamage(ICollisionDamage bullet)

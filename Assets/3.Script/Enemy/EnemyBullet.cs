@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class EnemyBullet : MonoBehaviour, ICollisionDamage
 {
-    public int CollisionDamage { get; set; }
+    public float CollisionDamage { get; set; }
 
     public void OnTriggerEnter2D(Collider2D collision)
     {

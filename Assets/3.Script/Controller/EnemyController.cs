@@ -27,11 +27,13 @@ public interface IRotate
 public class EnemyController : BaseController, IEnemy
 {
     [field : SerializeField]
-    public int HP { get ; set; }
+    public float HP { get ; set; }
+
     [field : SerializeField]
     public float Speed { get; set; }
+
     [field: SerializeField]
-    public int CollisionDamage { get; set; }
+    public float CollisionDamage { get; set; }
 
     [field: SerializeField]
     public Transform target;

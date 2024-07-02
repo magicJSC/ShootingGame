@@ -9,14 +9,21 @@ public interface IGetDamage
 
 public interface ICharacter : IGetDamage
 {
-    public int HP { get; set; }
+    public float HP { get; set; }
 
     public float Speed { get; set; }
 }
 
 public interface IPlayer : ICharacter
 {
+    
+    public float Damage { get; set; }
 
+    public GameObject Bullet { get; set; }
+
+    public float AttackCool { get; set; }
+
+    public float BulletSpeed { get; set; }
 }
 
 public interface IEnemy : ICharacter,ICollisionDamage

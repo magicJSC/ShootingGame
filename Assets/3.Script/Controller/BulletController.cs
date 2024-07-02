@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface ICollisionDamage
 {
-    public int CollisionDamage { get; set; }
+    public float CollisionDamage { get; set; }
 }
 
 public class BulletController : BaseController

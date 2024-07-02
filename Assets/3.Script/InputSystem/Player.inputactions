@@ -15,7 +15,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Shot",
+                    "name": "StartShot",
                     "type": "Button",
                     "id": "fd14abfd-543d-407d-89a7-dd90be011a08",
                     "expectedControlType": "Button",
@@ -31,6 +31,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "CancelShot",
+                    "type": "Button",
+                    "id": "595da689-e160-4cba-814e-6a35bf578bfd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -93,10 +102,10 @@
                     "name": "",
                     "id": "bbba7bbc-bb7d-4644-b37f-3ab02e1663db",
                     "path": "<Mouse>/leftButton",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
-                    "action": "Shot",
+                    "action": "StartShot",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -108,6 +117,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cb9022be-0765-482f-bca0-31bad87b70b5",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CancelShot",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

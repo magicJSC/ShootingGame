@@ -178,9 +178,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <HP>k__BackingField: 30
   <Speed>k__BackingField: 3
-  <Bullet>k__BackingField: {fileID: 0}
-  <attackCool>k__BackingField: 0.3
-  <bulletSpeed>k__BackingField: 4
+  <Damage>k__BackingField: 5
+  <Bullet>k__BackingField: {fileID: 5693005610326779139, guid: c9c0f84888599434aa7b2aa9f6c2685e, type: 3}
+  <AttackCool>k__BackingField: 0.3
+  <BulletSpeed>k__BackingField: 12
 --- !u!61 &190689459043198902
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -252,4 +253,4 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
