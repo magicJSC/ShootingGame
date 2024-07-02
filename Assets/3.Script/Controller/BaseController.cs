@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IGetDamage
 {
-    public void ApplyDamage(IBullet bullet);
+    public void ApplyDamage(ICollisionDamage bullet);
 }
 
 public interface ICharacter : IGetDamage
@@ -19,27 +19,9 @@ public interface IPlayer : ICharacter
 
 }
 
-public interface IEnemy : ICharacter
+public interface IEnemy : ICharacter,ICollisionDamage
 {
-    public float Damge { get; set; }
-    public float RushDamage { get; set; }
-}
-
-public interface IBullet 
-{
-    public int Damage { get; set; }
-}
-
-public interface IAttack
-{
-    public void Shot();
-
-    public GameObject Bullet { get; set; }
-}
-
-public interface IMove
-{
-    public void Move();
+    
 }
 
 /// <summary>

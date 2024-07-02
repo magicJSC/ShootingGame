@@ -2,6 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public interface IAttack
+{
+    public void Shot();
+    public float BulletDamage { get; set; }
+    public GameObject Bullet { get; set; }
+}
+
+public interface IMove
+{
+    Vector2 moveDirect { get; set; }
+    public void Move();
+}
+
+public interface IRotate
+{
+    Vector2 lookDirect { get; set; }
+    public void Rotate();
+}
+
 /// <summary>
 /// 적 제어 코드
 /// </summary>
@@ -11,8 +30,11 @@ public class EnemyController : BaseController, IEnemy
     public int HP { get ; set; }
     [field : SerializeField]
     public float Speed { get; set; }
-    public float Damge { get; set; }
-    public float RushDamage { get; set; }
+    [field: SerializeField]
+    public int CollisionDamage { get; set; }
+
+    [field: SerializeField]
+    public Transform target;
 
     protected Rigidbody2D _rigid;
 
@@ -21,10 +43,19 @@ public class EnemyController : BaseController, IEnemy
         _rigid = GetComponent<Rigidbody2D>();
     }
 
-    public void ApplyDamage(IBullet bullet)
+    public void ApplyDamage(ICollisionDamage bullet)
     {
-        HP -= bullet.Damage;
+        HP -= bullet.CollisionDamage;
         if (HP <= 0)
             Destroy(gameObject);
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent<IPlayer>(out var player))
+        {
+            player.ApplyDamage(this);
+            Destroy(gameObject);
+        }
     }
 }

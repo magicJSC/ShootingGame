@@ -7,8 +7,6 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class PlayerController : BaseController,IPlayer
 {
-
-
     Rigidbody2D _rigid;
     Vector2 moveDirect;
     Vector2 lookDirect;
@@ -54,9 +52,9 @@ public class PlayerController : BaseController,IPlayer
         bullet.transform.rotation = Quaternion.Euler(0, 0, rot + 90);
     }
 
-    public void ApplyDamage(IBullet bullet)
+    public void ApplyDamage(ICollisionDamage bullet)
     {
-        HP -= bullet.Damage;
+        HP -= bullet.CollisionDamage;
         if (HP <= 0)
             Debug.Log("플레이어 사망");
     }

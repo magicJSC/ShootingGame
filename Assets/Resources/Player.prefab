@@ -178,6 +178,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <HP>k__BackingField: 30
   <Speed>k__BackingField: 3
+  <Bullet>k__BackingField: {fileID: 0}
+  <attackCool>k__BackingField: 0.3
+  <bulletSpeed>k__BackingField: 4
 --- !u!61 &190689459043198902
 BoxCollider2D:
   m_ObjectHideFlags: 0
