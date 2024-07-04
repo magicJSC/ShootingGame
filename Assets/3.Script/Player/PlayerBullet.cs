@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 /// <summary>
-/// 적 총알 제어 코드
+/// 플레이어의 총알 제어 코드
 /// </summary>
-public class EnemyBullet : MonoBehaviour, ICollisionDamage
+public class PlayerBullet : MonoBehaviour, IBullet
 {
+    public ColorTypeSO colortypeSO;
+
     public float CollisionDamage { get => _collisionDamage; }
     float _collisionDamage;
 
@@ -17,9 +21,10 @@ public class EnemyBullet : MonoBehaviour, ICollisionDamage
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<IPlayer>(out var player))
+        if (collision.TryGetComponent<IEnemy>(out var enemy))
         {
-            player.ApplyDamage(this);
+            if (enemy.ColortypeSO == colortypeSO)
+                enemy.ApplyDamage(this);
             Destroy(gameObject);
         }
     }

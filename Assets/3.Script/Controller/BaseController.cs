@@ -2,41 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface ICharacter
+public interface IGetDamage
 {
-    public int HP { get; set; }
+    public void ApplyDamage(ICollisionDamage bullet);
+}
 
-    public float Speed { get; set; }
+public interface ICharacter : IGetDamage
+{
+    public float HP { get; }
 
-    public void ApplyDamage(IBullet bullet);
+    public float Speed { get; }
 }
 
 public interface IPlayer : ICharacter
 {
+    
+    public float Damage { get;}
 
+    public GameObject RedBullet { get; }
+    public GameObject GreenBullet { get; }
+
+    public float AttackCool { get; }
+
+    public float BulletSpeed { get; }
 }
 
-public interface IEnemy : ICharacter
+public interface IEnemy : ICharacter,ICollisionDamage
 {
-    public float Damge { get; set; }
-    public float RushDamage { get; set; }
-}
-
-public interface IBullet 
-{
-    public int Damage { get; set; }
-}
-
-public interface IAttack
-{
-    public void Shot();
-
-    public GameObject Bullet { get; set; }
-}
-
-public interface IMove
-{
-    public void Move();
+    public ColorTypeSO ColortypeSO { get; }
 }
 
 /// <summary>
