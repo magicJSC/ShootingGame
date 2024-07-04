@@ -9,26 +9,27 @@ public interface IGetDamage
 
 public interface ICharacter : IGetDamage
 {
-    public float HP { get; set; }
+    public float HP { get; }
 
-    public float Speed { get; set; }
+    public float Speed { get; }
 }
 
 public interface IPlayer : ICharacter
 {
     
-    public float Damage { get; set; }
+    public float Damage { get;}
 
-    public GameObject Bullet { get; set; }
+    public GameObject RedBullet { get; }
+    public GameObject GreenBullet { get; }
 
-    public float AttackCool { get; set; }
+    public float AttackCool { get; }
 
-    public float BulletSpeed { get; set; }
+    public float BulletSpeed { get; }
 }
 
 public interface IEnemy : ICharacter,ICollisionDamage
 {
-    
+    public ColorTypeSO ColortypeSO { get; }
 }
 
 /// <summary>

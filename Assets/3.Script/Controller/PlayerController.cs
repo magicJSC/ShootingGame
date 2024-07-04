@@ -8,40 +8,58 @@ using UnityEngine.InputSystem;
 public class PlayerController : BaseController,IPlayer
 {
     Rigidbody2D _rigid;
+
+    Vector2 mousePositon;
     Vector2 moveDirect;
     Vector2 lookDirect;
 
     bool canShot;
 
-    [field:SerializeField]
-    public float HP { get; set; }
+    public float HP => _hp;
+    [SerializeField]
+    float _hp;
 
-    [field: SerializeField]
-    public float Speed { get; set; }
+    public float Speed  => _speed; 
+    [SerializeField]
+    private float _speed;
 
-    [field:SerializeField]
-    public float Damage { get;set; }
-
-    [field:SerializeField]
-    public GameObject Bullet { get; set; }
-
-    [field: SerializeField]
-    public float AttackCool { get; set; }
+    public float Damage => _damage; 
+    [SerializeField]
+    float _damage;
+    
+    public float AttackCool => _attackCool; 
+    [SerializeField]
+    private float _attackCool;
 
     float _attackCurTime = 0;
 
-    [field: SerializeField]
-    public float BulletSpeed { get; set; }
+    
+    public float BulletSpeed => _bulletSpeed; 
+
+    public GameObject RedBullet => redBullet;
+    [SerializeField]
+    GameObject redBullet;
+    public GameObject GreenBullet => greenBullet;
+    [SerializeField]
+    GameObject greenBullet;
+
+    [SerializeField]
+    private float _bulletSpeed;
+
+    private GameObject usingBullet;
+
 
     protected override void Init()
     {
         _rigid = GetComponent<Rigidbody2D>();
         _attackCurTime = AttackCool;
+        usingBullet = RedBullet;
     }
 
     void Update()
     {
         Shot();
+        Rotate();
     }
 
     void OnMove(InputValue input)
@@ -50,9 +68,14 @@ public class PlayerController : BaseController,IPlayer
         _rigid.velocity = moveDirect * Speed;
     }
 
-    void OnRotate(InputValue input)
+    void OnGetMousePos(InputValue input)
     {
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(input.Get<Vector2>());
+        mousePositon = input.Get<Vector2>();
+    }
+
+    void Rotate()
+    {
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(mousePositon);
 
         lookDirect = (mousePos - transform.position).normalized;
         float rot = Mathf.Atan2(-lookDirect.y,-lookDirect.x) * Mathf.Rad2Deg;
@@ -71,14 +94,22 @@ public class PlayerController : BaseController,IPlayer
 
         _attackCurTime = 0;
 
-        GameObject bullet = Instantiate(Bullet);
+        GameObject bullet = Instantiate(usingBullet);
         bullet.GetComponent<Rigidbody2D>().velocity = lookDirect * BulletSpeed;
 
         float rot = Mathf.Atan2(-lookDirect.y, -lookDirect.x) * Mathf.Rad2Deg;
         bullet.transform.rotation = Quaternion.Euler(0, 0, rot + 90);
 
         bullet.transform.position = transform.position;
-        bullet.GetComponent<PlayerBullet>().CollisionDamage = Damage;
+        bullet.GetComponent<IBullet>().GetDamage(Damage);
+    }
+
+    void OnChangeBullet()
+    {
+        if (usingBullet == GreenBullet) 
+            usingBullet = RedBullet;
+        else
+            usingBullet = GreenBullet;
     }
 
     void OnStartShot()
@@ -93,7 +124,7 @@ public class PlayerController : BaseController,IPlayer
 
     public void ApplyDamage(ICollisionDamage bullet)
     {
-        HP -= bullet.CollisionDamage;
+        _hp -= bullet.CollisionDamage;
         if (HP <= 0)
             Debug.Log("플레이어 사망");
     }

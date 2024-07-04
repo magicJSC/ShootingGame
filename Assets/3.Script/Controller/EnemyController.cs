@@ -24,40 +24,51 @@ public interface IRotate
 /// <summary>
 /// 적 제어 코드
 /// </summary>
-public class EnemyController : BaseController, IEnemy
+public abstract class EnemyController : BaseController, IEnemy
 {
-    [field : SerializeField]
-    public float HP { get ; set; }
+    public EnemySO enemySO;
+    public ColorTypeSO ColortypeSO => colortypeSO;
+    [SerializeField]
+    ColorTypeSO colortypeSO;
 
-    [field : SerializeField]
-    public float Speed { get; set; }
+    public float HP { get => _hp; }
+    float _hp;
 
-    [field: SerializeField]
-    public float CollisionDamage { get; set; }
+    public float Speed { get => _speed; }
+    float _speed;
 
-    [field: SerializeField]
+    public float CollisionDamage { get => _collisonDamage; }
+
+
+    float _collisonDamage;
+
     public Transform target;
 
-    protected Rigidbody2D _rigid;
+    protected Rigidbody2D rigid;
 
     protected override void Init()
     {
-        _rigid = GetComponent<Rigidbody2D>();
+        rigid = GetComponent<Rigidbody2D>();
+        _hp = enemySO.hp;
+        _speed = enemySO.speed;
+        _collisonDamage = enemySO.collisionDamage;
     }
 
     public void ApplyDamage(ICollisionDamage bullet)
     {
-        HP -= bullet.CollisionDamage;
+        _hp -= bullet.CollisionDamage;
         if (HP <= 0)
             Destroy(gameObject);
     }
+
+    public abstract void CollideEvent();
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<IPlayer>(out var player))
         {
             player.ApplyDamage(this);
-            Destroy(gameObject);
+            CollideEvent();
         }
     }
 }

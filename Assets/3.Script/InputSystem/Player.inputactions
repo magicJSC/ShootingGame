@@ -24,7 +24,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Rotate",
+                    "name": "GetMousePos",
                     "type": "Value",
                     "id": "f278b846-409f-4b32-9f3e-4666fe7fa0a3",
                     "expectedControlType": "Vector2",
@@ -36,6 +36,15 @@
                     "name": "CancelShot",
                     "type": "Button",
                     "id": "595da689-e160-4cba-814e-6a35bf578bfd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ChangeBullet",
+                    "type": "Button",
+                    "id": "8dd89727-b901-4935-a427-b8490c52e1ea",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -116,7 +125,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Rotate",
+                    "action": "GetMousePos",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -128,6 +137,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "CancelShot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c92eb051-def4-4c9d-bb2a-f340107c8779",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeBullet",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -10,7 +10,7 @@ public class Background : MonoBehaviour
     public int speed;
     void Update()
     {
-        transform.position += Vector3.left * speed;
+        transform.position += Vector3.left * speed * Time.deltaTime;
         if(transform.position.x <= -18)
         {
             transform.position = Vector3.zero;

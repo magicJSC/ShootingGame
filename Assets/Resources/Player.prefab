@@ -176,12 +176,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b2052f436d1b9f47ae570dacdc656f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <HP>k__BackingField: 30
-  <Speed>k__BackingField: 3
-  <Damage>k__BackingField: 5
-  <Bullet>k__BackingField: {fileID: 5693005610326779139, guid: c9c0f84888599434aa7b2aa9f6c2685e, type: 3}
-  <AttackCool>k__BackingField: 0.3
-  <BulletSpeed>k__BackingField: 12
+  _hp: 50
+  _speed: 4
+  _damage: 10
+  _attackCool: 0.3
+  redBullet: {fileID: 5693005610326779139, guid: c9c0f84888599434aa7b2aa9f6c2685e, type: 3}
+  greenBullet: {fileID: 5693005610326779139, guid: ea7a68eb59e38644a987c3980c930477, type: 3}
+  _bulletSpeed: 20
 --- !u!61 &190689459043198902
 BoxCollider2D:
   m_ObjectHideFlags: 0
