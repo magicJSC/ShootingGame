@@ -9,7 +9,11 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        _instance = this;
+        if (Instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
     }
 
     public Transform player;
