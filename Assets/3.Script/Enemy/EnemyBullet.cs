@@ -5,9 +5,9 @@ using UnityEngine;
 /// <summary>
 /// 적 총알 제어 코드
 /// </summary>
-public class EnemyBullet : MonoBehaviour, ICollisionDamage
+public class EnemyBullet : MonoBehaviour, IBullet
 {
-    public float CollisionDamage { get => _collisionDamage; }
+    public float CollisionDamage => _collisionDamage;
     float _collisionDamage;
 
     public void GetDamage(float damage)

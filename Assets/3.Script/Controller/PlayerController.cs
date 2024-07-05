@@ -14,6 +14,7 @@ public class PlayerController : BaseController,IPlayer
     Vector2 lookDirect;
 
     bool canShot;
+    bool isDie;
 
     public float HP => _hp;
     [SerializeField]
@@ -54,6 +55,8 @@ public class PlayerController : BaseController,IPlayer
         _rigid = GetComponent<Rigidbody2D>();
         _attackCurTime = AttackCool;
         usingBullet = RedBullet;
+
+        GameManager.Instance.player = transform;
     }
 
     void Update()
@@ -124,8 +127,16 @@ public class PlayerController : BaseController,IPlayer
 
     public void ApplyDamage(ICollisionDamage bullet)
     {
+        if (isDie)
+            return;
         _hp -= bullet.CollisionDamage;
         if (HP <= 0)
-            Debug.Log("플레이어 사망");
+            Die();
+    }
+
+    public void Die()
+    {
+       isDie = true;
+        Debug.Log("플레이어 사망");
     }
 }

@@ -12,6 +12,8 @@ public interface ICharacter : IGetDamage
     public float HP { get; }
 
     public float Speed { get; }
+
+    public void Die();
 }
 
 public interface IPlayer : ICharacter
@@ -30,6 +32,8 @@ public interface IPlayer : ICharacter
 public interface IEnemy : ICharacter,ICollisionDamage
 {
     public ColorTypeSO ColortypeSO { get; }
+
+    public float Score { get; }
 }
 
 /// <summary>

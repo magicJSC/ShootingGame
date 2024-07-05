@@ -4,20 +4,25 @@ using UnityEngine;
 
 public interface IAttack
 {
+    public GameObject Bullet { get; }
+    Vector3 AttackDirect { get; }
+    public float BulletDamage { get; }
+    public float BulletSpeed { get; }
+    public float AttackCool { get; }
     public void Shot();
-    public float BulletDamage { get; set; }
-    public GameObject Bullet { get; set; }
 }
 
 public interface IMove
 {
-    Vector2 moveDirect { get; set; }
+    Vector2 MoveDirect { get; }
+    Vector3 MoveTarget { get; }
     public void Move();
+
 }
 
 public interface IRotate
 {
-    Vector2 lookDirect { get; set; }
+    Vector2 LookDirect { get; }
     public void Rotate();
 }
 
@@ -31,18 +36,20 @@ public abstract class EnemyController : BaseController, IEnemy
     [SerializeField]
     ColorTypeSO colortypeSO;
 
-    public float HP { get => _hp; }
+    public float HP => _hp;
     float _hp;
 
-    public float Speed { get => _speed; }
+    public float Speed => _speed;
     float _speed;
 
-    public float CollisionDamage { get => _collisonDamage; }
+    public float CollisionDamage => _collisonDamage;
 
+    public float Score => _score;
+    float _score;
 
     float _collisonDamage;
 
-    public Transform target;
+    public Transform player;
 
     protected Rigidbody2D rigid;
 
@@ -52,6 +59,7 @@ public abstract class EnemyController : BaseController, IEnemy
         _hp = enemySO.hp;
         _speed = enemySO.speed;
         _collisonDamage = enemySO.collisionDamage;
+        _score = enemySO.score;
     }
 
     public void ApplyDamage(ICollisionDamage bullet)
@@ -70,5 +78,10 @@ public abstract class EnemyController : BaseController, IEnemy
             player.ApplyDamage(this);
             CollideEvent();
         }
+    }
+
+    public void Die()
+    {
+        GameManager.Instance.score = Score;
     }
 }
