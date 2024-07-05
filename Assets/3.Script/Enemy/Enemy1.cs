@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class Enemy1 : EnemyController,IMove,IRotate
 {
-    public Vector2 moveDirect { get; set; }
-    public Vector2 lookDirect { get; set; }
+    public Vector2 MoveDirect => _moveDirect;
+    Vector2 _moveDirect;
+
+    public Vector2 LookDirect => _lookDirect;
+
+    public Vector3 MoveTarget => _moveTarget;
+    Vector3 _moveTarget;
+
+    Vector2 _lookDirect;
 
     void Update()
     {
@@ -15,14 +22,14 @@ public class Enemy1 : EnemyController,IMove,IRotate
 
     public void Move()
     {
-        moveDirect = (target.transform.position - transform.position).normalized;
-        rigid.velocity = moveDirect * Speed;
+        _moveDirect = (player.transform.position - transform.position).normalized;
+        rigid.velocity = MoveDirect * Speed;
     }
 
     public void Rotate()
     {
-        lookDirect = (target.transform.position - transform.position).normalized;
-        float rot = Mathf.Atan2(-lookDirect.y, -lookDirect.x) * Mathf.Rad2Deg;
+        _lookDirect = (player.transform.position - transform.position).normalized;
+        float rot = Mathf.Atan2(-LookDirect.y, -LookDirect.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, rot + 270);
     }
 

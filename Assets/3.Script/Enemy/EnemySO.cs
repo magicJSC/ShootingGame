@@ -6,8 +6,13 @@ using UnityEngine;
 public class EnemySO : ScriptableObject
 {
     public float hp;
-    public float bulletDamage;
     public float speed;
-    public GameObject bullet;
     public float collisionDamage;
+    public float score;
+
+    [Header("Attack")]
+    public float bulletDamage;
+    public float bulletSpeed;
+    public float attackCool;
+    public GameObject bullet;
 }

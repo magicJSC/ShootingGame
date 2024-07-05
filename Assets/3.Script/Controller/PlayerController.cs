@@ -7,57 +7,64 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class PlayerController : BaseController,IPlayer
 {
-    Rigidbody2D _rigid;
+    Rigidbody2D rigid;
 
     Vector2 mousePositon;
     Vector2 moveDirect;
-    Vector2 lookDirect;
+    Vector2 lookDirection;
 
     bool canShot;
+    bool isDie;
 
-    public float HP => _hp;
+    public float HP => hp;
     [SerializeField]
-    float _hp;
+    float hp;
 
-    public float Speed  => _speed; 
+    public float Speed  => speed; 
     [SerializeField]
-    private float _speed;
+    private float speed;
 
-    public float Damage => _damage; 
+    public float Damage => damage; 
     [SerializeField]
-    float _damage;
+    float damage;
     
-    public float AttackCool => _attackCool; 
+    public float AttackCool => attackCool; 
     [SerializeField]
-    private float _attackCool;
+    private float attackCool;
 
-    float _attackCurTime = 0;
+    float attackCurTime = 0;
 
     
-    public float BulletSpeed => _bulletSpeed; 
+    public float BulletSpeed => bulletSpeed;
+    [SerializeField]
+    private float bulletSpeed;
 
     public GameObject RedBullet => redBullet;
     [SerializeField]
     GameObject redBullet;
+
     public GameObject GreenBullet => greenBullet;
     [SerializeField]
     GameObject greenBullet;
 
-    [SerializeField]
-    private float _bulletSpeed;
-
     private GameObject usingBullet;
+    
+
 
 
     protected override void Init()
     {
-        _rigid = GetComponent<Rigidbody2D>();
-        _attackCurTime = AttackCool;
+        rigid = GetComponent<Rigidbody2D>();
+        attackCurTime = AttackCool;
         usingBullet = RedBullet;
+
+        GameManager.Instance.player = transform;
     }
 
     void Update()
     {
+        if (isDie)
+            return;
         Shot();
         Rotate();
     }
@@ -65,7 +72,7 @@ public class PlayerController : BaseController,IPlayer
     void OnMove(InputValue input)
     {
         moveDirect = input.Get<Vector2>();
-        _rigid.velocity = moveDirect * Speed;
+        rigid.velocity = moveDirect * Speed;
     }
 
     void OnGetMousePos(InputValue input)
@@ -77,27 +84,27 @@ public class PlayerController : BaseController,IPlayer
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(mousePositon);
 
-        lookDirect = (mousePos - transform.position).normalized;
-        float rot = Mathf.Atan2(-lookDirect.y,-lookDirect.x) * Mathf.Rad2Deg;
+        lookDirection = (mousePos - transform.position).normalized;
+        float rot = Mathf.Atan2(-lookDirection.y,-lookDirection.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0,0,rot + 90);
     }
 
     void Shot()
     {
-        if (_attackCurTime <= AttackCool)
+        if (attackCurTime <= AttackCool)
         {
-            _attackCurTime += Time.deltaTime;
+            attackCurTime += Time.deltaTime;
             return;
         }
         if (!canShot)
             return;
 
-        _attackCurTime = 0;
+        attackCurTime = 0;
 
         GameObject bullet = Instantiate(usingBullet);
-        bullet.GetComponent<Rigidbody2D>().velocity = lookDirect * BulletSpeed;
+        bullet.GetComponent<Rigidbody2D>().velocity = lookDirection * BulletSpeed;
 
-        float rot = Mathf.Atan2(-lookDirect.y, -lookDirect.x) * Mathf.Rad2Deg;
+        float rot = Mathf.Atan2(-lookDirection.y, -lookDirection.x) * Mathf.Rad2Deg;
         bullet.transform.rotation = Quaternion.Euler(0, 0, rot + 90);
 
         bullet.transform.position = transform.position;
@@ -124,8 +131,16 @@ public class PlayerController : BaseController,IPlayer
 
     public void ApplyDamage(ICollisionDamage bullet)
     {
-        _hp -= bullet.CollisionDamage;
+        if (isDie)
+            return;
+        hp -= bullet.CollisionDamage;
         if (HP <= 0)
-            Debug.Log("플레이어 사망");
+            Die();
+    }
+
+    public void Die()
+    {
+       isDie = true;
+        Debug.Log("플레이어 사망");
     }
 }
